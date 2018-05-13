@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "a19f3cc5-c683-4531-be82-905c2e72b2c1",
+		"name": "Todo API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Todos",
+			"description": "",
+			"item": [
+				{
+					"name": "POST /todos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "88b3c403-14cf-49b6-b83d-597ab35e4fb6",
+								"type": "text/javascript",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable('todoId', body._id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Feed the cat.\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/todos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"todos"
+							]
+						},
+						"description": "{ \n  \"text\": \"Some text\"\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/todos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /todos/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/todos/{{todoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"todos",
+								"{{todoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /todos/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/todos/{{todoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"todos",
+								"{{todoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /todos",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Feed the birds.\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/todos/{{todoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"todos",
+								"{{todoId}}"
+							]
+						},
+						"description": "{\n\t\"completed\": true\n}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"description": "",
+			"item": [
+				{
+					"name": "POST /users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d994dd54-8b0e-4f0f-8e7a-7b8ce5cbd896",
+								"type": "text/javascript",
+								"exec": [
+									"var token = postman.getResponseHeader('x-auth');",
+									"",
+									"postman.setEnvironmentVariable('x-auth', token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"edouard@imbrex.io\",\n\t\"password\": \"abc123!\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "{\n\t\"email\": \"edouard@imbrex.io\",\n\t\"password\": \"abc123!\"\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users/me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3df7bf1c-b1b7-4814-a39c-77c9f767409a",
+								"type": "text/javascript",
+								"exec": [
+									"var token = postman.getResponseHeader('x-auth');",
+									"",
+									"postman.setEnvironmentVariable('x-auth', token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"edouard@imbrex.io\",\n\t\"password\": \"abc123!\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /users/me/token",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth",
+								"value": "{{x-auth}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/me/token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
