@@ -9,18 +9,18 @@
     "test": "export NODE_ENV=test && mocha server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
-  "engines": {
-    "node": "9.8.0"
-  },
   "author": "Edouard Barthelemy",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.1",
     "mongodb": "^3.0.7",
     "mongoose": "^5.0.16",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.37.10",
+    "sequelize-cli": "^4.0.0",
     "validator": "^10.0.0"
   },
   "devDependencies": {

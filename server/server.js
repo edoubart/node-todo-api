@@ -2,12 +2,14 @@ require('./config/config.js');
 
 const bodyParser = require('body-parser');
 const express = require('express');
-const { ObjectID } = require('mongodb');
+var Sequelize = require('sequelize');
 
-var { Todo } = require('./models/todo');
-var { User } = require('./models/user');
-var { authenticate } = require('./middleware/authenticate');
-var { mongoose } = require('./db/mongoose');
+//const { ObjectID } = require('mongodb');
+
+//var { Todo } = require('./models/todo');
+//var { User } = require('./models/user');
+//var { authenticate } = require('./middleware/authenticate');
+var { sequelize } = require('./db/sequelize');
 
 var app = express();
 const port = process.env.PORT;
@@ -15,6 +17,7 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 
 // POST /todos
+/*
 app.post('/todos', authenticate, (req, res) => {
   var todo = new Todo({
     text: req.body.text,
@@ -115,10 +118,22 @@ app.patch('/todos/:id', authenticate, (req, res) => {
   } else {
     res.status(404).send();
   }
-});
+});*/
+
+const User = require('./models').User;
 
 // POST /users
 app.post('/users', (req, res) => {
+
+
+  User.create({
+    firstName: "john",
+    lastName: "osullivan",
+    email: "johnosullivan@imca.com"
+  }).then(function() {
+    res.json({});
+  });
+  /*
   var user = new User({
     email: req.body.email,
     password: req.body.password
@@ -131,8 +146,11 @@ app.post('/users', (req, res) => {
   }).catch((e) => {
     res.status(400).send(e);
   });
+  */
+
 });
 
+/*
 // GET /users/me (Private route)
 app.get('/users/me', authenticate, (req, res) => {
   res.send(req.res.user);
@@ -162,13 +180,15 @@ app.delete('/users/me/token', authenticate, (req, res) => {
     res.status(400).send();
   }
 });
+*/
 
-app.listen(port, () => {
-  console.log(`Listening on ${port}.`);
+app.listen(3000, () => {
+  console.log(`Listening on ${3000}.`);
 });
 
 function isBoolean(value) {
   return value === true || value === false;
 }
+
 
 module.exports = { app };
