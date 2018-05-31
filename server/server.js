@@ -3,13 +3,17 @@ require('./config/config.js');
 const bodyParser = require('body-parser');
 const express = require('express');
 var Sequelize = require('sequelize');
-
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const validator = require('validator');
 //const { ObjectID } = require('mongodb');
 
 //var { Todo } = require('./models/todo');
 //var { User } = require('./models/user');
-//var { authenticate } = require('./middleware/authenticate');
+var { authenticate } = require('./middleware/authenticate');
 var { sequelize } = require('./db/sequelize');
+
+const models = require('./models');
 
 var app = express();
 const port = process.env.PORT;
@@ -120,42 +124,44 @@ app.patch('/todos/:id', authenticate, (req, res) => {
   }
 });*/
 
-const User = require('./models').User;
 
 // POST /users
 app.post('/users', (req, res) => {
-
-
-  User.create({
-    firstName: "john",
-    lastName: "osullivan",
-    email: "johnosullivan@imca.com"
-  }).then(function() {
-    res.json({});
-  });
-  /*
-  var user = new User({
+  // Create a new user
+  models.User.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
-    password: req.body.password
-  });
+    password: req.body.password,
+    tokens: [],
+  }).then(function(data) {
 
-  user.save().then(() => {
-    return user.generateAuthToken();
-  }).then((token) => {
-    res.header('x-auth', token).send(user);
-  }).catch((e) => {
-    res.status(400).send(e);
+    var user = data['dataValues'];
+    var access = 'auth';
+
+    var token = jwt.sign({access, id: user.id}, "process.env.JWT_SECRET");
+    user.tokens = user.tokens.concat([{access, token}]);
+
+    models.User.update({
+      tokens: user.tokens
+    },{
+      where: { id: user.id }
+    }).then(function (result) {
+      res.header('x-auth', token);
+      res.json(user);
+    });
+
   });
-  */
 
 });
 
-/*
+
 // GET /users/me (Private route)
 app.get('/users/me', authenticate, (req, res) => {
   res.send(req.res.user);
 });
 
+/*
 // POST /users/login {email, password}
 app.post('/users/login', (req, res) => {
   var body = {
