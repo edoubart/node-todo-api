@@ -58,12 +58,10 @@ class UserController {
         email: req.body.email,
         password: req.body.password
       };
-
       models.User.find({
         where: { email: creds.email }
       }).then(function(user) {
         var user_profile = user.dataValues;
-
         bcrypt.compare(creds.password, user_profile.password, (err, resp) => {
             if (res) {
 
@@ -86,7 +84,7 @@ class UserController {
 
       });
     } catch (err) {
-      res.status(400).send(e);
+      res.status(400).send(err);
     }
   }
 

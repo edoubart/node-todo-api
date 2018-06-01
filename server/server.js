@@ -14,8 +14,8 @@ const UserController = require("./controllers/user");
 var app = express();
 const port = 3000;
 
+// Sets the body parser
 app.use(bodyParser.json());
-
 // POST /todos
 app.post('/todos', authenticate, TodoController.postTodo);
 // GET /todos
