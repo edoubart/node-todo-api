@@ -21,108 +21,72 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 
 // POST /todos
-/*
 app.post('/todos', authenticate, (req, res) => {
-  var todo = new Todo({
+  models.Todo.create({
     text: req.body.text,
-    _creator: req.res.user._id
-  });
-
-  todo.save().then((todo) => {
+    creator: req.user.id
+  }).then(function(todo) {
     res.send(todo);
   }).catch((e) => {
     res.status(400).send(e);
   });
 });
 
+
 // GET /todos
 app.get('/todos', authenticate, (req, res) => {
-  Todo.find({
-    _creator: req.res.user._id
-  }).then((todos) => {
+  models.Todo.findAll({
+    where: { creator: req.user.id }
+  }).then(function(todos) {
     res.send({ todos });
   }).catch((e) => {
     res.status(400).send(e);
   });
 });
 
+
 // GET /todos/:id
 app.get('/todos/:id', authenticate, (req, res) => {
-  var id = req.params.id;
-
-  if (ObjectID.isValid(id)) {
-    Todo.findOne({
-      _id: id,
-      _creator: req.res.user._id
-    }).then((todo) => {
-      if (todo) {
-        res.send({ todo });
-      } else {
-        res.status(404).send();
-      }
-    }).catch((e) => {
-      res.status(400).send();
-    });
-  } else {
-    res.status(404).send();
-  }
+  var id_todo = req.params.id;
+  models.Todo.find({
+    where: { id: id_todo }
+  }).then(function(todo) {
+    res.send({ todo });
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
 });
+
 
 // DELETE /todos/:id
 app.delete('/todos/:id', authenticate, (req, res) => {
-  var id = req.params.id;
-
-  if (ObjectID.isValid(id)) {
-    Todo.findOneAndRemove({
-      _id: id,
-      _creator: req.res.user._id
-    }).then((todo) => {
-      if (todo) {
-        res.send({ todo });
-      } else {
-        res.status(404).send();
-      }
-    }).catch((e) => {
-      res.status(400).send();
-    });
-  } else {
-    res.status(404).send();
-  }
+  var id_todo = req.params.id;
+  models.Todo.destroy({
+    where: { id: id_todo }
+  }).then(function(todo) {
+    res.send({ todo });
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
 });
+
 
 // PATCH /todos/:id
 app.patch('/todos/:id', authenticate, (req, res) => {
-  var id = req.params.id;
-  var body = {
+
+  var id_todo = req.params.id;
+  models.Todo.update({
     text: req.body.text,
     completed: req.body.completed
-  };
+  },{
+    where: { id: id_todo, creator: req.user.id  }
+  }).then(function (todo) {
+    res.send({ todo });
+  }).catch((e) => {
+    res.status(400).send();
+  });
 
-  if (ObjectID.isValid(id)) {
-    if (isBoolean(body.completed) && body.completed) {
-      body.completedAt = new Date().getTime();
-    } else {
-      body.completed = false;
-      body.completedAt = null;
-    }
-
-    Todo.findOneAndUpdate({
-      _id: id,
-      _creator: req.res.user._id
-    }, {$set: body}, {new: true}).then((todo) => {
-      if (todo) {
-        res.send({ todo });
-      } else {
-        res.status(404).send();
-      }
-    }).catch((e) => {
-      res.status(400).send();
-    });
-
-  } else {
-    res.status(404).send();
-  }
-});*/
+});
 
 
 // POST /users
