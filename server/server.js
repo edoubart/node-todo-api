@@ -35,6 +35,7 @@ app.post('/users/login', UserController.userLogin);
 // DELETE /users/me/token
 app.delete('/users/me/token', authenticate, UserController.deleteToken);
 
+app.post('/test_db_transaction', UserController.test_db_transaction);
 
 app.listen(port, () => {
   console.log(`Listening on ${port}.`);

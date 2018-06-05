@@ -2,8 +2,37 @@ const models = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
+const { sequelize, User } = require("../models");
 
 class UserController {
+
+  static async test_db_transaction(req, res) {
+    let t;
+    try {
+      t = await sequelize.transaction({
+        isolationLevel: sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
+      });
+
+      const user = await User.create({
+        firstName: "blank",
+        lastName: "blank",
+        email: req.body.email,
+        password: "test",
+        tokens: []
+      }, { transaction: t });
+
+      const results = await user.update({
+        firstName: 'John',
+        lastName: 'Boothe'
+      }, { transaction: t });
+
+      await t.commit();
+      res.json({ "transaction":true, "error":undefined });
+    } catch (err) {
+      await t.rollback();
+      res.json({ "transaction":false, "error":err });
+    }
+  }
 
   static postUser(req, res) {
     try {
