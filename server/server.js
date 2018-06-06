@@ -37,8 +37,12 @@ app.delete('/users/me/token', authenticate, UserController.deleteToken);
 
 app.post('/test_db_transaction', UserController.test_db_transaction);
 
-app.listen(port, () => {
+var server = app.listen(port, () => {
   console.log(`Listening on ${port}.`);
 });
 
-module.exports = { app };
+function shutdown(done) {
+  server.close(done);
+}
+
+module.exports = { app, shutdown };
