@@ -4,10 +4,9 @@ const request = require('supertest');
 const { beforeTest, teardown, UserOne, getUser, setUser, getHeader, setHeader } = require('./../seeds/users');
 const { app, shutdown } = require('./../../server/server');
 
-before(beforeTest);
+//before(beforeTest);
 
 describe('POST /users', () => {
-
   it('should create a user with valid parameters', (done) => {
     request(app).post('/users').send({
       email: UserOne.email,
@@ -27,7 +26,6 @@ describe('POST /users', () => {
       }
       done();
     });
-
   });
 
   it('should not create a user with invalid parameters', (done) => {
@@ -55,11 +53,9 @@ describe('POST /users', () => {
       .expect(400)
       .end(done);
   });
-
 });
 
 describe('POST /users/login', () => {
-
   it('should login the user with valid parameters and return authentication token', (done) => {
     request(app)
       .post('/users/login')
@@ -94,11 +90,9 @@ describe('POST /users/login', () => {
         done();
       });
   });
-
 });
 
 describe('GET /users/me', () => {
-
   it('should get the user with valid token and return authentication user', (done) => {
     request(app)
       .get('/users/me')
@@ -116,11 +110,9 @@ describe('GET /users/me', () => {
         done();
       });
   });
-
 });
 
 describe('DELETE /users/me/token', () => {
-
   it('should delete the authentication token of the current logged-in user', (done) => {
     request(app)
       .delete('/users/me/token')
@@ -151,7 +143,6 @@ describe('DELETE /users/me/token', () => {
         done();
       });
   });
-
 });
 
 after(teardown);

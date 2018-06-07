@@ -1,4 +1,4 @@
-const { sequelize, User } = require('./../../server/models');
+const { sequelize, User, Todo } = require('./../../server/models');
 
 const UserOne = {
   email: "johndoe@imbrex.io",
@@ -17,23 +17,28 @@ const setHeader = (data) => { UserOneHeaders = data; }
 const getHeader = () => { return UserOneHeaders; }
 
 const beforeTest = (done) => {
-  
   done();
 };
 
 const teardown = (done) => {
-
   User.destroy({
-    where: { id: getUser().id }
+    where: {},
+    truncate: true
   }).then(function (result) {
-    sequelize.close();
-    done();
+    Todo.destroy({
+      where: {},
+      truncate: true
+    }).then(function (result) {
+      sequelize.close();
+      done();
+    }).catch(function (error) {
+      sequelize.close();
+      done();
+    });
   }).catch(function (error) {
-    console.log(error);
     sequelize.close();
     done();
   });
-
 };
 
 module.exports = {
