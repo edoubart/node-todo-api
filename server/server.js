@@ -39,6 +39,7 @@ app.post('/test_db_transaction', UserController.test_db_transaction);
 
 var server = app.listen(port, () => {
   console.log(`Listening on ${port}.`);
+  console.log(``);
 });
 
 function shutdown(done) {

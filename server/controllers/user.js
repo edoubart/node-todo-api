@@ -63,8 +63,9 @@ class UserController {
                 res.json(user);
               });
 
+            }).catch(function (error) {
+              res.status(400).send(err);
             });
-
 
         });
       });
@@ -92,7 +93,7 @@ class UserController {
       }).then(function(user) {
         var user_profile = user.dataValues;
         bcrypt.compare(creds.password, user_profile.password, (err, resp) => {
-            if (res) {
+            if (resp) {
 
               var access = 'auth';
 
@@ -108,6 +109,8 @@ class UserController {
                 res.json(user);
               });
 
+            } else {
+              res.status(400).send(err);
             }
         });
 
