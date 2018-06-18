@@ -1,24 +1,13 @@
-var mongoose = require('mongoose');
-
-var Todo = mongoose.model('Todo', {
-  text: {
-    type: String,
-    required: true,
-    minLength: 1,
-    trim: true
-  },
-  completed: {
-    type: Boolean,
-    default: false
-  },
-  completedAt: {
-    type: Number,
-    default: null
-  },
-  _creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  }
-});
-
-module.exports = { Todo };
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  var Todo = sequelize.define('Todo', {
+    text: DataTypes.STRING,
+    completed: DataTypes.BOOLEAN,
+    completedAt: DataTypes.INTEGER,
+    creator: DataTypes.STRING
+  }, {});
+  Todo.associate = function(models) {
+    // associations can be defined here
+  };
+  return Todo;
+};

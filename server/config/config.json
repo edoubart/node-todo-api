@@ -1,12 +1,29 @@
 {
   "development": {
-    "JWT_SECRET": "buveq13se0eexe0raxp2r5",
-    "MONGODB_URI": "mongodb://localhost:27017/TodoApp",
-    "PORT": 3000
+    "username": "root",
+    "password": "root",
+    "database": "todo",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false,
+    "operatorsAliases": false
   },
   "test": {
-    "JWT_SECRET": "090grddtskmilkphxyp5zhq",
-    "MONGODB_URI": "mongodb://localhost:27017/TodoAppTest",
-    "PORT": 3000
+    "username": "root",
+    "password": "root",
+    "database": "todo_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false,
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "todo_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false,
+    "operatorsAliases": false
   }
 }
